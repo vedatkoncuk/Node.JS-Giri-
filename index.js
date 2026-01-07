@@ -1,31 +1,20 @@
-// request - response => server
+const express = require("express");
+const app = express();
 
-// http 
+// routes
 
-let http = require("http");//node modules => http, fs, os
+app.use("/products/:id/:price", function (req, res) {
+  res.sendFile("product details" + req.params.id);
+})
 
-var fs = require("fs");
+app.use("/products", function (req, res) {
+  res.send("products");
+})
 
-var server = http.createServer((req, res) => {
-  if (req.url == "/") {
-    fs.readFile("index.html", (err, html) => {
-      res.write(html);
-      res.end();
-    });
-  } else if (req.url == "/products") {
-    fs.readFile("urunler.html", (err, html) => {
-      res.write(html);
-      res.end();
-    });
-  } else {
-    fs.readFile("404.html", (err, html) => {
-      res.write(html);
-      res.end();
-    })
-  }
+app.use("/", function (req, res) {
+  res.send("anasayfa");
+})
 
-});
-
-server.listen(3000, () => {
-  console.log("node.js server at port 3000");
+app.listen(3000, () => {
+  console.log("listening go port 3000")
 })
